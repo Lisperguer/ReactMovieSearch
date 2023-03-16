@@ -1,11 +1,13 @@
-import { useState } from "react";
+import {   useEffect, useRef, useState } from "react";
 import { fetchMovies } from "../helper/fetchMovies";
 
 
-export const useApiMovies = () => {
+export const useApiMovies = (asd) => {
+  // console.log(previousSearch.current)
+  const previousSearch = useRef(asd)
   const [responseMovies, setResponseMovies] = useState([])
+  const [loading, setLoading ] = useState()
   const movies = responseMovies.Search;
-
   //Con esto centralizamos la API y no dependemos de su contrato
   const mappedMovies = movies?.map((movie) => ({
     id: movie.imdbID,
@@ -15,15 +17,29 @@ export const useApiMovies = () => {
     poster: movie.Poster,
   }));
 
+
   const getMovies = async (search) => {
-    if (search === ' ') return
-    if(search){
-      const movies =  await fetchMovies(search);
-      setResponseMovies(movies)
+    if(previousSearch.current === search ) return;
+    if (search === ' ') return;
+    try {
+      setLoading(true)
+      if(search){
+        const movies =  await fetchMovies(search);
+        setResponseMovies(movies)
+      }
+      setLoading(false)
+    } catch (error) {
+      throw('getMovies error')
+    } finally {
+      previousSearch.current = search
     }
+
   }
 
-
-
-  return {mappedMovies, getMovies}
+  // useEffect(() => {
+  //   getMovies()
+  // }, [])
+  
+  
+  return {mappedMovies, getMovies,loading}
 };

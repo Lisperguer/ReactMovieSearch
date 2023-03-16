@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const SearchForm = ({getMovies}) => {
+export const SearchForm = ({getMovies, handleSearchSubmit}) => {
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
@@ -13,9 +13,8 @@ export const SearchForm = ({getMovies}) => {
       alert("debe ingresar mas de 3 carácteres");
       return;
     }
-
+    handleSearchSubmit(search);
     getMovies(search)
-
   };
 
   const handleChange = (e) => {
