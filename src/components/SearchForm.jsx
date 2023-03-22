@@ -6,20 +6,21 @@ export const SearchForm = ({getMovies, handleSearch}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search === "") {
-      Swal.fire('no se puede ingresar un valor vacio')
+      Swal.fire('ingrese alguna una película')
       return;
     }
     if (search.length <= 3) {
       Swal.fire('Debes ingresar más de 3 carácteres')
       return;
     }
-    getMovies()
+    getMovies({search})
   };
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
-    handleSearch(e.target.value);
-
+    const newSearch = e.target.value
+    setSearch(newSearch);
+    handleSearch(newSearch);
+    getMovies({search: newSearch})
   };
 
   return (

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { fetchMovies } from "../helper/fetchMovies";
 
 export const useApiMovies = ({search}) => {
+  // console.log('useApiMovies()')
   const previousSearch = useRef(search);
   const [responseMovies, setResponseMovies] = useState([]);
   const [loading, setLoading] = useState();
@@ -14,8 +15,8 @@ export const useApiMovies = ({search}) => {
     type: movie.Type,
     poster: movie.Poster,
   }));
-  const getMovies = async () => {
-    console.log('hola')
+  const getMovies = async ({search}) => {
+    // console.log('getMovies()')
     if (previousSearch.current === search) return;
     if (search === " ") return;
     try {
@@ -31,10 +32,6 @@ export const useApiMovies = ({search}) => {
       previousSearch.current = search;
     }
   };
-
-  // useEffect(() => {
-  //   getMovies()
-  // }, [])
 
   return { mappedMovies, getMovies, loading };
 };
