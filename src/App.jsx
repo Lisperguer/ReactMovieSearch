@@ -10,19 +10,19 @@ import { useApiMovies } from "./hooks/useApiMovies";
 //http://www.omdbapi.com/?i=tt3896198&apikey=e250385c
 
 function App() {
-  const [asd, setASD] = useState('')
-  const { mappedMovies, getMovies, loading } = useApiMovies(asd);
+  const [search, setSearch] = useState('')
+  const { mappedMovies, getMovies, loading } = useApiMovies({search});
   const hasMovies = mappedMovies?.length > 0;
 
-  const handleSearchSubmit = (searchSubmited) => {
-    setASD(searchSubmited)
+  const handleSearch = (searchSubmited) => {
+    setSearch(searchSubmited)
   }
 
   return (
     <>
       <div className="page">
         <header>
-          <SearchForm getMovies={getMovies} handleSearchSubmit={handleSearchSubmit}/>
+          <SearchForm getMovies={getMovies} handleSearch={handleSearch}/>
         </header>
         <main>
           {loading ? (

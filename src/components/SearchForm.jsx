@@ -1,24 +1,25 @@
 import { useState } from "react";
 
-export const SearchForm = ({getMovies, handleSearchSubmit}) => {
+export const SearchForm = ({getMovies, handleSearch}) => {
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search === "") {
-      alert("no se puede ingresar un valor vacio");
+      Swal.fire('no se puede ingresar un valor vacio')
       return;
     }
     if (search.length <= 3) {
-      alert("debe ingresar mas de 3 carácteres");
+      Swal.fire('Debes ingresar más de 3 carácteres')
       return;
     }
-    handleSearchSubmit(search);
-    getMovies(search)
+    getMovies()
   };
 
   const handleChange = (e) => {
     setSearch(e.target.value);
+    handleSearch(e.target.value);
+
   };
 
   return (
