@@ -1,26 +1,34 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import debounce from "just-debounce-it";
 
-export const SearchForm = ({getMovies, handleSearch}) => {
+export const SearchForm = ({ getMovies, handleSearch }) => {
   const [search, setSearch] = useState("");
+
+  const debounceGetMovie = useCallback(
+    debounce((search) => {
+      getMovies({ search });
+    }, 500),
+    []
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search === "") {
-      Swal.fire('ingrese alguna una película')
+      Swal.fire("ingrese alguna una película");
       return;
     }
     if (search.length <= 3) {
-      Swal.fire('Debes ingresar más de 3 carácteres')
+      Swal.fire("Debes ingresar más de 3 carácteres");
       return;
     }
-    getMovies({search})
+    getMovies({ search });
   };
 
   const handleChange = (e) => {
-    const newSearch = e.target.value
+    const newSearch = e.target.value;
     setSearch(newSearch);
     handleSearch(newSearch);
-    getMovies({search: newSearch})
+    debounceGetMovie(newSearch);
   };
 
   return (
